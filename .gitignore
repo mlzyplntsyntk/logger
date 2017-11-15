@@ -1,0 +1,5 @@
+/node_modules/
+.project
+/.settings/
+/.git/
+/.nyc_output/

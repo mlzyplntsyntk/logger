@@ -1,0 +1,21 @@
+class _Tuples {
+    [key:string]:any;
+}
+export abstract class handler {
+    private static handlers:_Tuples = new _Tuples();
+    private static instances:_Tuples = new _Tuples();
+
+    abstract respond(req:{}):{};
+    
+    
+    public static register<T>(t:T, name:string) {
+        if (typeof this.handlers[name] === "undefined") {
+            this.handlers[name] = t;
+        }
+    }
+    
+    static getByName(name:string):handler {
+        return this.handlers[name];
+    }
+    
+}

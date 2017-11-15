@@ -1,0 +1,42 @@
+{
+  "author": "sarbay",
+  "name": "Loggery",
+  "version": "0.0.0",
+  "description": "Generated with typescript.java",
+  "license": "MIT",
+  "dependencies": {
+    "@types/body-parser": "*",
+    "@types/cookie-parser": "*",
+    "@types/cookie-session": "*",
+    "@types/express": "*",
+    "@types/elasticsearch": "*",
+    "asyncawait": "^1.0.6",
+    "body-parser": "~1.15.2",
+    "cookie-parser": "~1.4.3",
+    "cookie-session": "~1.2.0",
+    "express": "4.14.0",
+    "shortid": "^2.2.8",
+    "elasticsearch": "*"
+  },
+  "devDependencies": {
+    "@types/chai": "*",
+    "@types/jasmine": "^2.8.2",
+    "@types/node": "*",
+    "chai": "^3.2.0",
+    "chai-http": "^2.0.1",
+    "mocha": "^2.3.2",
+    "nodemon": "*",
+    "nyc": "^11.3.0",
+    "request": "*",
+    "ts-node": "*",
+    "tslint": "~4.5.0",
+    "typescript": "*",
+    "typings": "^2.1.1"
+  },
+  "scripts": {
+    "pretest": "tsc",
+    "test": "nodemon --exec nyc mocha",
+    "start": "npm run build:live",
+    "build:live": "nodemon --exec ts-node --max-old-space-size=4096 src/index.ts 1151"
+  }
+}
