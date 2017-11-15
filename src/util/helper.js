@@ -15,6 +15,7 @@ var helper = (function () {
         return contents;
     };
     helper.loadHandlers = function () {
+        console.log(__dirname + "/../routes");
         var files = fs.readdirSync(__dirname + "/../routes");
         for (var i = 0; i < files.length; i++) {
             var _className = helper.getValidClassName(files[i]);

@@ -1,7 +1,7 @@
 import {handler} from '../util/handler';
 
 export class _blank extends handler {
-    respond(req:{}): {} { 
+    async respond(req:{}): Promise<{}> { 
         return {};
     }
 }

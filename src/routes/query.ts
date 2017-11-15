@@ -2,7 +2,7 @@ import {handler} from '../util/handler';
 
 export class query extends handler {
     
-    respond(req:{}): {} { 
+    async respond(req:{}): Promise<{}> {
         return {};
     }
 }

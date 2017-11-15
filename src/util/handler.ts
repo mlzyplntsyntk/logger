@@ -5,7 +5,7 @@ export abstract class handler {
     private static handlers:_Tuples = new _Tuples();
     private static instances:_Tuples = new _Tuples();
 
-    abstract respond(req:{}):{};
+    abstract async respond(req:{}):Promise<{}>;
     
     
     public static register<T>(t:T, name:string) {
@@ -17,5 +17,4 @@ export abstract class handler {
     static getByName(name:string):handler {
         return this.handlers[name];
     }
-    
 }

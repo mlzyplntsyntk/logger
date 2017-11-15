@@ -14,6 +14,7 @@ export class helper {
     }
     
     public static loadHandlers() {
+        console.log(__dirname + "/../routes");
         var files = fs.readdirSync(__dirname + "/../routes");
         for (var i=0; i<files.length; i++) {
             let _className = helper.getValidClassName(files[i]);
