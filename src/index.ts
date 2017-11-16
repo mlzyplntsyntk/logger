@@ -7,21 +7,6 @@ import {handler} from './util/handler';
 import {helper} from './util/helper';
 
 let app:express.Application = express();
-var elasticsearch = require('elasticsearch');
-global["client"] = new elasticsearch.Client({
-  host: 'localhost:9200',
-  log: 'trace'
-});
-global["client"].ping({
-    // ping usually has a 3000ms timeout
-    requestTimeout: 1000
-  }, function (error) {
-    if (error) {
-      console.trace('elasticsearch cluster is down!');
-    } else {
-      console.log('All is well');
-    }
-  });
 global["config"] = helper.loadConfig(__dirname + "/config.json"); 
 helper.loadHandlers();
 
@@ -39,7 +24,8 @@ app.use((req:express.Request,
     next:express.NextFunction) => {
         try {
             let requestParser = helper.parseRequest(req.path);
-            let responder = handler.getByName(requestParser[0]);
+            console.log(requestParser);
+            let responder = handler.getByName(requestParser.controller);
             async(function() {
                 return responder.respond(req.body);
             })()
@@ -60,7 +46,6 @@ if (!process.env.PORT) {
     } else {
         process.env.PORT = 1151; 
     }
-    
 }
 
 app.listen(process.env.PORT, (err)=>{

@@ -1,7 +1,10 @@
+import {routeItem} from '../model/routeItem';
 class _Tuples {
     [key:string]:any;
 }
 export abstract class handler {
+    route:routeItem;
+    
     private static handlers:_Tuples = new _Tuples();
     private static instances:_Tuples = new _Tuples();
 

@@ -1,8 +1,5 @@
+import {model} from '../util/model'
 
-export class logItem {
+export class logItem extends model {
     key:string;
-    
-    constructor(properties:{}) {
-        this.key = properties["key"] || "";
-    }
 }

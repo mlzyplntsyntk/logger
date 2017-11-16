@@ -37,6 +37,6 @@
     "pretest": "tsc",
     "test": "nodemon --exec nyc mocha",
     "start": "npm run build:live",
-    "build:live": "nodemon --exec ts-node --max-old-space-size=4096 src/index.ts 1151"
+    "build:live": "nodemon --exec ts-node --max-old-space-size=4096 src/index.ts 1152"
   }
 }

@@ -1,8 +1,10 @@
 export abstract class model {
-    static createFromObject(obj:{}) : model {
+    static createFromObject<T>(t:new () => T, obj:{}) : model {
+        console.log(obj);
         for (var a in obj) {
-            this[a] = obj[a];
+            if (t[a])
+                t[a] = obj[a];
         }
-        return this;
+        return t;
     }
 }
