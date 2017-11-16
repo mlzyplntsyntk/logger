@@ -11,11 +11,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var model_1 = require("../util/model");
-var logItem = (function (_super) {
-    __extends(logItem, _super);
-    function logItem() {
+var dataResultItem = (function (_super) {
+    __extends(dataResultItem, _super);
+    function dataResultItem() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    return logItem;
+    return dataResultItem;
 }(model_1.model));
-exports.logItem = logItem;
+exports.dataResultItem = dataResultItem;

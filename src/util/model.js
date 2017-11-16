@@ -3,11 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var model = (function () {
     function model() {
     }
-    model.createFromObject = function (obj) {
+    model.createFromObject = function (t, obj) {
+        console.log(obj);
         for (var a in obj) {
-            this[a] = obj[a];
+            if (t[a])
+                t[a] = obj[a];
         }
-        return this;
+        return t;
     };
     return model;
 }());

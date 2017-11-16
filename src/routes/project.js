@@ -53,8 +53,40 @@ var project = (function (_super) {
     }
     project.prototype.respond = function (req) {
         return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = this.route.method;
+                        switch (_a) {
+                            case "create": return [3, 1];
+                        }
+                        return [3, 2];
+                    case 1: return [3, 4];
+                    case 2: return [4, this.checkIndex(req["key"])];
+                    case 3: return [2, _b.sent()];
+                    case 4: return [2];
+                }
+            });
+        });
+    };
+    project.prototype.checkIndex = function (index) {
+        return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2, {}];
+                return [2, new Promise(function (resolve) {
+                        global["client"].get({
+                            index: "global",
+                            type: "keys",
+                            id: index
+                        }, function (err, resp) {
+                            if (err) {
+                                resolve(err);
+                            }
+                            else {
+                                resolve(resp);
+                            }
+                        });
+                    })];
             });
         });
     };
