@@ -17,7 +17,7 @@
     "express": "4.14.0",
     "shortid": "^2.2.8",
     "elasticsearch": "*"
-  },
+  },	
   "devDependencies": {
     "@types/chai": "*",
     "@types/jasmine": "^2.8.2",

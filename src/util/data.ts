@@ -1,10 +1,10 @@
 import { dataResultItem } from "../model/dataResultItem";
+import { model } from "./model";
 
 export abstract class data {
-    abstract configure();
-    // TODO Implement all project specific abstract methods
-    abstract async getItemById(route:string, key:string) : Promise<dataResultItem>;
-    abstract async createNewIndex(route:string, props:{}) : Promise<dataResultItem>;
-    abstract async createUniqueIndex(route:string, name:string) : Promise<dataResultItem>;
-    abstract async query(route:string, props:{}) : Promise<dataResultItem>;
+    abstract async connect():Promise<dataResultItem>;
+    
+    abstract async query(query:string, parameters:any|null):Promise<dataResultItem>;
+    
+    abstract async disconnect():Promise<dataResultItem>;
 }
