@@ -12,8 +12,6 @@ let jasmine = require('jasmine-core');
 chai.use(chaiHttp);
 var server = "http://localhost:1152";
 
-
-
 describe("test start", ()=>{
     //hello world
     it("should insert un existing project", (done)=>{

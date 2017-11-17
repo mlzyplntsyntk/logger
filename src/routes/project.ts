@@ -15,10 +15,14 @@ export class project extends handler {
     }
     
     async create(name:string):Promise<{}> {
-        let result = await handler.datasource.createUniqueIndex(
-            "globals/keys", 
-            name
-        );
+        let result = await handler.datasource.query("create", {
+            index : "globals",
+            type : "keys",
+            id : name,
+            body : {
+                name : name
+            }
+        });
         return new Promise((resolve)=>{
             resolve(result);
         });

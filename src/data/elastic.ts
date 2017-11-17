@@ -5,39 +5,46 @@ var elasticsearch = require('elasticsearch');
 export class elastic extends data {
     client:any;    
 
-    configure() {
+    async connect() : Promise<dataResultItem> {
         this.client = new elasticsearch.Client({
-            host: 'localhost:9200',
-            //log: 'trace'
+            host: 'localhost:9200'
         });
-        this.client.ping({
-            requestTimeout: 1000
-          }, function (error) {
-            if (error) 
-              console.trace(error);
-          });
-        
-        this.client.indices.delete({
-            index : "*"
-        }, ()=>{
-            this.client.indices.create({
-                index : "globals"
-            }, ()=>{
-                this.client.indices.putMapping({
-                    index : "globals", 
-                    type : "keys",
-                    body : {
-                        properties : {
-                            name : {
-                                type : "keyword"
-                            }
-                        }
-                    }
-                }, ()=>{
-                   
-                });
+        return new Promise<dataResultItem>((resolve)=>{
+            this.client.ping({
+                requestTimeout: 1000
+            }, function (error) {
+                if (error) {
+                    resolve(new dataResultItem({
+                        status : false,
+                        data : error
+                    }));
+                    return;
+                } 
+                //TODO remove this according to environment
+                this.test();
+                
+                resolve(dataResultItem.success());
             });
         });
+    }
+    
+    async query(body:string, params:any) : Promise<dataResultItem> {
+        return new Promise<dataResultItem>((resolve)=>{
+            this.client[body](params, (err, resp)=>{
+                let result = new dataResultItem({
+                    status : err ? false : true,
+                    message : err ? err.message : "",
+                    data : err || resp
+                });
+                resolve(result);
+            }); 
+        });
+    }
+        
+    async disconnect() : Promise<dataResultItem> {
+        return new Promise<dataResultItem>((resolve)=>{
+            resolve(dataResultItem.success());
+        })
     }
     
     async createProject(name:string) : Promise<dataResultItem> {
@@ -76,7 +83,7 @@ export class elastic extends data {
     async getItemById(route:string, key:string) : Promise<dataResultItem> {
         return new Promise<dataResultItem>((resolve)=>{
             let parsed = route.split("/");
-            let result = this.executeCommand("get", {
+            let result = this.query("get", {
                 index : parsed[0],
                 type : parsed[1],
                 id : key
@@ -88,7 +95,7 @@ export class elastic extends data {
     async createNewIndex(route:string, props:{}) : Promise<dataResultItem> {
         return new Promise<dataResultItem>((resolve)=>{
             let parsed = route.split("/");
-            let result = this.executeCommand("index", {
+            let result = this.query("index", {
                 index : parsed[0],
                 type : parsed[1],
                 body : props
@@ -100,7 +107,7 @@ export class elastic extends data {
     async createUniqueIndex(route:string, name:string) : Promise<dataResultItem> {
         return new Promise<dataResultItem>((resolve)=>{
             let parsed = route.split("/");
-            let result = this.executeCommand("create", {
+            let result = this.query("create", {
                 index : parsed[0],
                 type : parsed[1],
                 id : name,
@@ -115,7 +122,7 @@ export class elastic extends data {
     async deleteIndex(route:string, props:{}) : Promise<dataResultItem> {
         return new Promise<dataResultItem>((resolve)=>{
             let parsed = route.split("/");
-            let result = this.executeCommand("delete", {
+            let result = this.query("delete", {
                 index : parsed[0],
                 type : parsed[1],
                 body : props
@@ -124,10 +131,10 @@ export class elastic extends data {
         });
     }
 
-    async query(route:string, props:{}) : Promise<dataResultItem> {
+    async checkKeyword(route:string, props:{}) : Promise<dataResultItem> {
         return new Promise<dataResultItem>((resolve)=>{
             let parsed = route.split("/");
-            let result = this.executeCommand("search", {
+            let result = this.query("search", {
                 index : parsed[0],
                 type : parsed[1],
                 body : {
@@ -144,16 +151,28 @@ export class elastic extends data {
         });
     }
     
-    private async executeCommand(commandType:string, cmd:{}) : Promise<dataResultItem> {
-        return new Promise<dataResultItem>((resolve)=>{
-            this.client[commandType](cmd, (err, resp)=>{
-                let result = new dataResultItem({
-                    status : err ? false : true,
-                    message : err ? err.message : "",
-                    data : err || resp
+    private test() {
+        this.client.indices.delete({
+            index : "*"
+        }, ()=>{
+            this.client.indices.create({
+                index : "globals"
+            }, ()=>{
+                this.client.indices.putMapping({
+                    index : "globals", 
+                    type : "keys",
+                    body : {
+                        properties : {
+                            name : {
+                                type : "keyword"
+                            }
+                        }
+                    }
+                }, ()=>{
+                   
                 });
-                resolve(result);
-            }); 
+            });
         });
     }
+    
 }
