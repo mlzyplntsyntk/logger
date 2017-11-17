@@ -1,27 +1,33 @@
 import {handler} from '../util/handler';
 import {helper} from '../util/helper';
+import { dataResultItem } from "../model/dataResultItem";
 
 export class project extends handler {
+    
     async respond(req:{}): Promise<{}> { 
         switch (this.route.method) {
             case "create":
-                
-                break;
+                let result = await this.create(req["name"]);
+                return result;
             default : 
                 return await this.checkIndex(req["key"]);
         }
     }
     
-    async checkIndex(index:string):Promise<{}> {
+    async create(name:string):Promise<{}> {
+        let result = await handler.datasource.createUniqueIndex(
+            "globals/keys", 
+            name
+        );
         return new Promise((resolve)=>{
-            global["client"].get({
-                index : "global",
-                type : "keys",
-                id : index
-            }, (err, resp)=>{
-                if (err) {resolve(err)}
-                else { resolve(resp); }
-            }); 
+            resolve(result);
         });
     }
+    
+    async checkIndex(index:string):Promise<{}> {
+        return new Promise((resolve)=>{
+            resolve(handler.datasource.getItemById("globals/keys", index));
+        });
+    }
+    
 }

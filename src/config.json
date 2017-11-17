@@ -1,6 +1,0 @@
-{
-	"env" : "development",
-	"routes" : [
-		{ "name": "log" }
-	]
-}

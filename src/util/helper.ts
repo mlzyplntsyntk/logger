@@ -1,6 +1,7 @@
 var fs = require('fs');
 import {handler} from './handler';
 import {routeItem} from '../model/routeItem';
+import { data } from "./data";
 
 export class helper {
     public static parseRequest(path:string):routeItem {
@@ -9,8 +10,9 @@ export class helper {
         return helper.createRoute(temp);
     }
     
-    private static createRoute(req:[]):routeItem {
-        return routeItem.createFromObject(routeItem, { 
+    private static createRoute(req:string[]):routeItem {
+        console.log(req);
+        return new routeItem({ 
             controller : req[0],
             method : req.length>1 ? req[1] : ""
         });
@@ -26,8 +28,8 @@ export class helper {
         for (var i=0; i<files.length; i++) {
             let _className = helper.getValidClassName(files[i]);
             if (null == _className) continue;
-        
-            let _instance = helper.getClassByFileName(_className);
+            console.log(_className + " registered");
+            let _instance = helper.getClassByFileName(handler, _className, "routes");
             if (_instance != null) {
                 handler.register(_instance, _className);
             }
@@ -39,7 +41,15 @@ export class helper {
         }
         return null;
     }
-    private static getClassByFileName(name:string) : handler {
-        return new (require(__dirname + "/../routes/" + name)[name])();
+    private static getClassByFileName<T>(t:T, name:string, folder:string) : T {
+        return new (require(__dirname + "/../" + folder + "/" + name)[name])();
+    }
+    public static loadDataSource():any {
+        if (global["config"]["datasource"]) {
+            let _className = helper.getValidClassName(global["config"]["datasource"] + ".ts");
+            let _instance = helper.getClassByFileName(data, _className, "data");
+            return _instance;
+        }
+        return null;
     }
 }

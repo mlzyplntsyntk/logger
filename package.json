@@ -22,9 +22,10 @@
     "@types/chai": "*",
     "@types/jasmine": "^2.8.2",
     "@types/node": "*",
+    "jasmine":"*",
     "chai": "^3.2.0",
     "chai-http": "^2.0.1",
-    "mocha": "^2.3.2",
+    "mocha": "*",
     "nodemon": "*",
     "nyc": "^11.3.0",
     "request": "*",
@@ -35,8 +36,11 @@
   },
   "scripts": {
     "pretest": "tsc",
-    "test": "nodemon --exec nyc mocha",
+    "test": "nodemon --exec mocha --timeout 10000 --delay true",
     "start": "npm run build:live",
     "build:live": "nodemon --exec ts-node --max-old-space-size=4096 src/index.ts 1152"
+  },
+  "nodemonConfig": {
+    "delay": "500"
   }
 }
