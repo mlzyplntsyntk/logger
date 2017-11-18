@@ -27,6 +27,13 @@ app.use((req:express.Request,
     res:express.Response,
     next:express.NextFunction) => {
         try {
+           /**
+            * TODO : before the response, let's check if this
+            * requester is valid or not
+            */
+            
+            
+            
             let requestParser = helper.parseRequest(req.path);
             let responder = handler.getByName(requestParser.controller);
             responder.route = requestParser;
